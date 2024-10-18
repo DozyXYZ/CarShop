@@ -1,0 +1,23 @@
+/* Ensure body and root div cover the whole viewport */
+html,
+body,
+#root {
+  height: 80%;
+  margin: 0;
+  padding: 0;
+}
+
+/* App component covers the full screen */
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Adjust the content to be pushed below the AppBar */
+.Carlist {
+  padding-top: 64px;
+  /* To account for AppBar height */
+}
