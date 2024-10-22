@@ -51,7 +51,7 @@ function Carlist() {
         })
             .then(response => {
                 if (response.ok) {
-                    fetchCars(); // Refresh the data after adding a new car
+                    handleFetch(); // Refresh the data after adding a new car
                 } else {
                     alert('Something went wrong');
                 }
@@ -72,7 +72,7 @@ function Carlist() {
         })
             .then(response => {
                 if (response.ok) {
-                    fetchCars(); // Refresh the data after updating the car
+                    handleFetch(); // Refresh the data after updating the car
                 } else {
                     alert('Something went wrong');
                 }
