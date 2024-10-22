@@ -1,21 +1,25 @@
-import './App.css';
 import Carlist from './components/Carlist';
-import { AppBar, Toolbar, Typography } from "@mui/material";
+import { AppBar, Toolbar, Typography, Container, CssBaseline } from "@mui/material";
 
 function App() {
 
   return (
     <>
-      <div className="App">
-        <AppBar position="fixed">
+      <Container maxWidth="xxl">
+
+        <AppBar position="static" style={{ marginBottom: "20px" }}>
           <Toolbar>
             <Typography variant="h6">
               Car Shop
             </Typography>
           </Toolbar>
         </AppBar>
+
         <Carlist />
-      </div>
+
+        <CssBaseline />
+
+      </Container>
     </>
   )
 }

@@ -37,7 +37,7 @@ function Editcar(props) {
 
     return (
         <>
-            <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+            <Button variant="contained" color="secondary" size="small" onClick={handleClickOpen}>
                 Edit Car
             </Button>
 
