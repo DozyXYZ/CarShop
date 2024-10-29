@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { updateCar } from "../carapi";
 
 function Editcar(props) {
     const [open, setOpen] = useState(false);
@@ -9,7 +10,7 @@ function Editcar(props) {
     });
 
     const handleClickOpen = () => {
-        console.log(props.car);
+        // console.log(props.car);
         setCar({
             brand: props.car.brand,
             model: props.car.model,
@@ -29,9 +30,13 @@ function Editcar(props) {
         setCar({ ...car, [event.target.name]: event.target.value });
     };
 
-    // props.updateCar(car) is a function that is passed as a prop from Carlist component
-    const updateCar = () => {
-        props.updateCar(car, props.car._links.car.href);
+    const handleSave = () => {
+        updateCar(props.car._links.car.href, car)
+            .then(() => {
+                props.handleFetch();
+                handleClose();
+            })
+            .catch(err => console.error(err))
         handleClose();
     };
 
@@ -44,17 +49,6 @@ function Editcar(props) {
             <Dialog
                 open={open}
                 onClose={handleClose}
-                PaperProps={{
-                    component: 'form',
-                    onSubmit: (event) => {
-                        event.preventDefault();
-                        const formData = new FormData(event.currentTarget);
-                        const formJson = Object.fromEntries(formData.entries());
-                        const email = formJson.email;
-                        console.log(email);
-                        handleClose();
-                    },
-                }}
             >
                 <DialogTitle>Edit Car</DialogTitle>
 
@@ -63,7 +57,6 @@ function Editcar(props) {
                         Please modify the information below.
                     </DialogContentText>
                     <TextField
-                        autoFocus
                         required
                         margin="dense"
                         name="brand"
@@ -127,7 +120,7 @@ function Editcar(props) {
 
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={updateCar}>Save</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
 
             </Dialog>

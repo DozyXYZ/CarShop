@@ -41,48 +41,6 @@ function Carlist() {
         }
     };
 
-    const saveCar = (newCar) => {
-        fetch(import.meta.env.VITE_API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newCar),
-        })
-            .then(response => {
-                if (response.ok) {
-                    handleFetch(); // Refresh the data after adding a new car
-                } else {
-                    alert('Something went wrong');
-                }
-            })
-            .catch(error => {
-                console.error('Error adding car:', error);
-                alert('An error occurred while trying to add a new car.');
-            })
-    };
-
-    const updateCar = (car, url) => {
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(car),
-        })
-            .then(response => {
-                if (response.ok) {
-                    handleFetch(); // Refresh the data after updating the car
-                } else {
-                    alert('Something went wrong');
-                }
-            })
-            .catch(error => {
-                console.error('Error updating car:', error);
-                alert('An error occurred while trying to update the car.');
-            })
-    };
-
     const columns = [
         { field: "brand", sortable: true, filter: true, floatingFilter: true },
         { field: "model", sortable: true, filter: true, floatingFilter: true },
@@ -95,7 +53,7 @@ function Carlist() {
             cellRenderer: (params) =>
                 <Editcar
                     car={params.data}
-                    updateCar={updateCar}
+                    handleFetch={handleFetch}
                 />
         },
         {
@@ -113,8 +71,9 @@ function Carlist() {
 
     return (
         <>
+            <Addcar handleFetch={handleFetch} />
+
             <div className="ag-theme-material" style={{ width: "1400px", height: "700px" }}>
-                <Addcar saveCar={saveCar} />
 
                 <AgGridReact
                     rowData={cars}
@@ -124,6 +83,7 @@ function Carlist() {
                     paginationAutoPageSize={true} // automatically adjusts the number of rows to fit the available space
                     // paginationPageSizeSelector={[10, 20, 50, 100]}
                     floatingFilter={true}
+                    suppressCellFocus={true}
                 />
 
                 <Snackbar

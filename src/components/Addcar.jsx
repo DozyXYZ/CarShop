@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { saveCar } from "../carapi";
 
 function Addcar(props) {
     const [open, setOpen] = useState(false);
@@ -16,14 +17,17 @@ function Addcar(props) {
         setOpen(false);
     };
 
-    const handleInputChange = (event) => {
-        setCar({ ...car, [event.target.name]: event.target.value });
+    const handleSave = () => {
+        saveCar(car)
+            .then(() => {
+                props.handleFetch();
+                handleClose();
+            })
+            .catch(err => console.log(err))
     };
 
-    // props.saveCar(car) is a function that is passed as a prop from Carlist component
-    const addCar = () => {
-        props.saveCar(car);
-        handleClose();
+    const handleInputChange = (event) => {
+        setCar({ ...car, [event.target.name]: event.target.value });
     };
 
     return (
@@ -35,17 +39,6 @@ function Addcar(props) {
             <Dialog
                 open={open}
                 onClose={handleClose}
-                PaperProps={{
-                    component: 'form',
-                    onSubmit: (event) => {
-                        event.preventDefault();
-                        const formData = new FormData(event.currentTarget);
-                        const formJson = Object.fromEntries(formData.entries());
-                        const email = formJson.email;
-                        console.log(email);
-                        handleClose();
-                    },
-                }}
             >
                 <DialogTitle>New Car</DialogTitle>
 
@@ -53,8 +46,8 @@ function Addcar(props) {
                     <DialogContentText>
                         Please fill in the form below to add a new car.
                     </DialogContentText>
+
                     <TextField
-                        autoFocus
                         required
                         margin="dense"
                         name="brand"
@@ -64,6 +57,7 @@ function Addcar(props) {
                         fullWidth
                         variant="standard"
                     />
+
                     <TextField
                         required
                         margin="dense"
@@ -74,6 +68,7 @@ function Addcar(props) {
                         fullWidth
                         variant="standard"
                     />
+
                     <TextField
                         required
                         margin="dense"
@@ -84,6 +79,7 @@ function Addcar(props) {
                         fullWidth
                         variant="standard"
                     />
+
                     <TextField
                         required
                         margin="dense"
@@ -94,6 +90,7 @@ function Addcar(props) {
                         fullWidth
                         variant="standard"
                     />
+
                     <TextField
                         required
                         margin="dense"
@@ -104,6 +101,7 @@ function Addcar(props) {
                         fullWidth
                         variant="standard"
                     />
+
                     <TextField
                         required
                         margin="dense"
@@ -118,7 +116,7 @@ function Addcar(props) {
 
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={addCar}>Save</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
 
             </Dialog>
